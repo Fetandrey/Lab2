@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace ConsoleApplication
@@ -10,7 +9,19 @@ namespace ConsoleApplication
         {
             Console.WriteLine("Enter your text:");
             string text = Console.ReadLine();
-            char[] separators = {' ',',','.',':',';',}; //Can be expanded
+            Dictionary<string, int> result = AnalyzeText(text);            
+            foreach (string word in result.Keys)
+            {
+                if(word != "")
+                {
+                    Console.WriteLine("Word: {0}\toccurs in this text {1} times", word, result[word]);
+                }
+            }
+            Console.ReadLine();
+        }
+        private static Dictionary<string, int> AnalyzeText(string text)
+        {
+            char[] separators = {' ',',','.',':',';','.','?','!','\t','"','\'','(',')','[',']','{','}','<','>','/'}; //Can be expanded
             string[] words = text.Split(separators); //Leaves "" between separators
             Dictionary<string, int> matches = new Dictionary<string, int>();
             foreach (string word in words)
@@ -24,14 +35,7 @@ namespace ConsoleApplication
                     matches[word]++;
                 }
             }
-            foreach (string word in matches.Keys)
-            {
-                if(word != "")
-                {
-                    Console.WriteLine("Word: {0}\toccurs in this text {1} times", word, matches[word]);
-                }
-            }
-            Console.ReadLine();
+            return matches;
         }
     }
 }
